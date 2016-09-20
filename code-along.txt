@@ -1,0 +1,45 @@
+CREATE DATABASE "sql-crud";   # create a database 'sql-crud'
+\c sql-crud;                  # connect to database
+psql sql-crud                 # connect to psql and the database at the same time
+
+CREATE TABLE books (          # create a table called 'books' (comprised of book)
+  id SERIAL PRIMARY KEY,       # sets primary key to be the id, SERIAL makes sure it autoincrements
+  title TEXT,                      # sets column for title with datatype TEXT
+  author TEXT,                     # sets column for author with datatype TEXT
+  published_on DATE                # sets column for date with datatype DATE
+);                                   (published_on is convention for date data-types)
+
+-- FILTERING --
+
+SELECT * FROM books;                  # return all records
+SELECT * FROM books LIMIT 10;         # return first ten records
+SELECT * FROM books WHERE id-42;      # return only book with id of 42
+
+
+-- returns books where 'heinlein' is _somewhere_ in the author column
+SELECT * FROM books WHERE author ILIKE '%heinlein%'
+
+-- returns books published in 2000
+SELECT * FROM books WHERE published_on >= '2000-01-01' AND published_on < '2000-12-31'
+
+-- returns all authors who have more than one book, the total books they have, in descending order
+SELECT author, COUNT(*) FROM books GROUP BY author HAVING COUNT(*) > 1 ORDER BY COUNT(*) DESC;
+
+-- ALTERING ---
+
+-- adds 'isbn' column to books
+ALTER TABLE books ADD COLUMN isbn TEXT;
+
+-- UPDATING --
+
+--updates the ISBN for '1984'
+
+UPDATE books
+SET isbn = '978123457021'
+WHERE title = '1984'
+
+-- DELETING --
+
+-- deleting 'HOLES' and 'Ender's Game'
+
+DELETE FROM books WHERE id IN (1,2);

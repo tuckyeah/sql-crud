@@ -1,0 +1,4 @@
+ALTER TABLE ingredients
+  ADD COLUMN carbs INTEGER,
+  ADD COLUMN proteins INTEGER,
+  ADD COLUMN fats INTEGER;
